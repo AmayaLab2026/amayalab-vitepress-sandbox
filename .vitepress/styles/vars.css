@@ -27,17 +27,27 @@
  * -------------------------------------------------------------------------- */
 
 :root {
-  --vp-c-sky-1: #3c96ca;
-  --vp-c-sky-2: #49a1d4;
-  --vp-c-sky-3: #49a1d4;
-  --vp-c-sky-soft: rgba(73, 161, 212, 0.84);
+  --vp-c-custom-1: #8baad4;
+  --vp-c-custom-2: #a2bfe1;
+  --vp-c-custom-3: #7598c9;
+  --vp-c-custom-soft: rgba(162, 191, 225, 0.16);
+
+  /* 背景色以贴近 Claude 的暖灰和米白色 */
+  --vp-c-bg: #f5f4ef;
+  --vp-c-bg-alt: #ebeae6;
+  --vp-c-bg-elv: #ffffff;
 }
 
 .dark {
-  --vp-c-sky-1: #49a3d7;
-  --vp-c-sky-2: #58b1e5;
-  --vp-c-sky-3: #58b1e5;
-  --vp-c-sky-soft: #58b1e5;
+  --vp-c-custom-1: #a2bfe1;
+  --vp-c-custom-2: #b8cdec;
+  --vp-c-custom-3: #8baad4;
+  --vp-c-custom-soft: rgba(162, 191, 225, 0.16);
+
+  /* 暗黑模式下贴近 Claude 的深暖灰色 */
+  --vp-c-bg: #2d2a29;
+  --vp-c-bg-alt: #232120;
+  --vp-c-bg-elv: #383533;
 }
 
 /**
@@ -63,10 +73,10 @@
 
 :root {
   /* 主色 */
-  --vp-c-brand-1: var(--vp-c-sky-1);
-  --vp-c-brand-2: var(--vp-c-sky-2);
-  --vp-c-brand-3: var(--vp-c-sky-3);
-  --vp-c-brand-soft: var(--vp-c-sky-soft);
+  --vp-c-brand-1: var(--vp-c-custom-1);
+  --vp-c-brand-2: var(--vp-c-custom-2);
+  --vp-c-brand-3: var(--vp-c-custom-3);
+  --vp-c-brand-soft: var(--vp-c-custom-soft);
 }
 
 /**
@@ -77,13 +87,13 @@
   --vp-home-hero-name-color: transparent;
   --vp-home-hero-name-background: -webkit-linear-gradient(
     120deg,
-    #8d6fc7 40%,
-    #4fc4d8
+    #8baad4 40%,
+    #a2bfe1
   );
   --vp-home-hero-image-background-image: linear-gradient(
     -45deg,
-    #8d73bf90 30%,
-    #d6c0e890
+    #8baad490 30%,
+    #a2bfe190
   );
   --vp-home-hero-image-filter: blur(30px);
 }
