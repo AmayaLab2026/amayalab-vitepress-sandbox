@@ -1,5 +1,5 @@
 import type { HeadConfig } from 'vitepress'
-import { creatorNames, creatorUsernames, siteDescription, siteName, targetDomain } from '../metadata'
+import { siteDescription, siteName, targetDomain } from '../metadata'
 
 export default [
   ['meta', {
@@ -31,16 +31,12 @@ export default [
       sizes: '16x16',
     },
   ],
-  ['meta', {
-    name: 'author',
-    content: creatorNames.join(', '),
-  }],
   [
     'meta',
     {
       name: 'keywords',
       content:
-          ['markdown', 'knowledge-base', '知识库', 'vitepress', 'obsidian', 'notebook', 'notes', ...creatorUsernames].join(', '),
+          ['markdown', 'knowledge-base', '知识库', 'vitepress', 'obsidian', 'notebook', 'notes'].join(', '),
     },
   ],
 
@@ -67,10 +63,6 @@ export default [
   ['meta', {
     name: 'twitter:card',
     content: 'summary_large_image',
-  }],
-  ['meta', {
-    name: 'twitter:creator',
-    content: creatorUsernames.join(', '),
   }],
   [
     'meta',

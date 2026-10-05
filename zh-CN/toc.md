@@ -1,8 +1,3 @@
----
-nolebase:
-  gitChangelog: false
-  pageProperties: false
----
 
 # 目录
 

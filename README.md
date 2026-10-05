@@ -1,8 +1,8 @@
-# AmayaLab 知识库
+# amayalab-vitepress-sandbox
 
-欢迎来到 **AmayaLab** 知识库项目！本项目是一个基于 [VitePress](https://vitepress.dev/) 驱动的静态文档网站，用于记录回忆、知识和畅想。
+在Nólëbase的基础上自定义的文档框架w
 
-## 🌲 项目结构
+## 项目结构
 
 以下是项目的主要目录结构说明：
 
@@ -21,7 +21,7 @@
 └── README.md            # 项目说明文档
 ```
 
-## 🚀 快速开始
+## 本地开发
 
 本项目使用 [pnpm](https://pnpm.io/) 作为包管理器。请确保你已在本地安装了 Node.js 和 pnpm。
 
@@ -57,10 +57,6 @@ pnpm run build
 pnpm run preview
 ```
 
-## 📝 编写内容
+## 编写内容
 
 所有的页面和文章都在 `zh-CN/` 目录中，你可以直接使用 Markdown 语法创建新的 `.md` 文件来撰写内容。VitePress 会自动处理基于文件路径的路由。
-
-## 📄 开源协议
-
-本项目内容采用 [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.zh) 协议进行许可。代码部分遵循 [MIT License](./LICENSE)。

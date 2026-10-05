@@ -1,4 +1,3 @@
-import type { Creator } from '../scripts/types/metadata'
 import { getAvatarUrlByGithubName } from '../scripts/utils'
 
 /** 文本 */
@@ -18,25 +17,3 @@ export const discordLink = ''
 export const plainTargetDomain = 'docs.your-domain.com'
 /** 完整域名 */
 export const targetDomain = `https://${plainTargetDomain}`
-
-/** 创作者 */
-export const creators: Creator[] = [
-  {
-    name: '你的名字',
-    avatar: '',
-    username: 'your-github-username',
-    title: '文档作者',
-    desc: '开发者',
-    links: [
-      { type: 'github', icon: 'github', link: 'https://github.com/your-github-username' },
-    ],
-    nameAliases: ['你的名字'],
-    emailAliases: ['your-email@example.com'],
-  }
-].map<Creator>((c) => {
-  c.avatar = c.avatar || getAvatarUrlByGithubName(c.username)
-  return c as Creator
-})
-
-export const creatorNames = creators.map(c => c.name)
-export const creatorUsernames = creators.map(c => c.username || '')
