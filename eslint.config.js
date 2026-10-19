@@ -6,5 +6,8 @@ export default antfu({
     '**/*.md',
     '**/*.yaml',
     '**/*.yml',
+    'snippets/**',
+    '.vitepress/dist/**',
+    '.vitepress/cache/**',
   ],
 })

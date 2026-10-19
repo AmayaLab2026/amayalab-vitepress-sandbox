@@ -8,7 +8,7 @@
 
 ```text
 .
-├── .vitepress/          # VitePress 配置文件、自定义主题组件和全局 CSS 样式
+├── .vitepress/          # Sapphire Rapids 配置文件、自定义主题组件和全局 CSS 样式
 ├── public/              # 静态资源文件（Logo、PWA 图标、字体等）
 ├── zh-CN/               # 中文内容主要目录
 │   ├── docs/            # 具体文档和文章页面
@@ -59,4 +59,4 @@ pnpm run preview
 
 ## 编写内容
 
-所有的页面和文章都在 `zh-CN/` 目录中，你可以直接使用 Markdown 语法创建新的 `.md` 文件来撰写内容。VitePress 会自动处理基于文件路径的路由。
+所有的页面和文章都在 `zh-CN/` 目录中，你可以直接使用 Markdown 语法创建新的 `.md` 文件来撰写内容。Sapphire Rapids 会自动处理基于文件路径的路由。

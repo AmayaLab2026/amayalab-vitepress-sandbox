@@ -5,8 +5,10 @@ import DefaultTheme from 'vitepress/theme'
 import { h } from 'vue'
 
 import AppContainer from './components/AppContainer.vue'
+import AppearanceToggleTransition from './components/AppearanceToggleTransition.vue'
+import ComponentInHeader from './components/ComponentInHeader.vue'
 import DocFooter from './components/DocFooter.vue'
-import HomePage from './components/HomePage.vue'
+import ModalDemo from './components/ModalDemo.vue'
 import Share from './components/Share.vue'
 
 import 'virtual:uno.css'
@@ -40,36 +42,48 @@ const ExtendedTheme: Theme = {
     return h(DefaultTheme.Layout, null, {
       // https://vitepress.dev/guide/extending-default-theme#layout-slots
       'doc-top': () => [
-        ...slots['doc-top'].map(slot => slot()),
+        ...(slots['doc-top']?.map(slot => slot()) ?? []),
       ],
       'doc-footer-before': () => [
         h(DocFooter),
       ],
       'nav-bar-content-after': () => [
         h(Share),
-        ...slots['nav-bar-content-after'].map(slot => slot()),
+        ...(slots['nav-bar-content-after']?.map(slot => slot()) ?? []),
       ],
       'nav-screen-content-after': () => [
-        ...slots['nav-screen-content-after'].map(slot => slot()),
+        ...(slots['nav-screen-content-after']?.map(slot => slot()) ?? []),
       ],
     })
   },
   async enhanceApp(ctx) {
-    const { app } = ctx
-
-    /**
-     * Have to manually import and register the essential components that needed during build globally.
-     *
-     * Learn more at: Warn `Hydration completed but contains mismatches.` and Custom components are not rendered · Issue #1918 · vuejs/vitepress
-     * https://github.com/vuejs/vitepress/issues/1918
-     */
+    const { app, siteData } = ctx
 
     await nolebase?.enhanceApp?.(ctx)
 
-    app.component('HomePage', HomePage)
+    if (typeof window !== 'undefined' && siteData?.value) {
+      const year = new Date().getFullYear()
+      const syncCopyright = (config: any) => {
+        if (config?.footer?.copyright && typeof config.footer.copyright === 'string') {
+          config.footer.copyright = config.footer.copyright.replace(/2023(-\d*)?/, () => {
+            return year > 2023 ? `2023-${year}` : '2023'
+          })
+        }
+      }
+      syncCopyright(siteData.value.themeConfig)
+      if (siteData.value.locales) {
+        Object.values(siteData.value.locales).forEach((locale: any) => {
+          syncCopyright(locale?.themeConfig)
+        })
+      }
+    }
+
     app.component('DocFooter', DocFooter)
     app.component('Share', Share)
     app.component('AppContainer', AppContainer)
+    app.component('ModalDemo', ModalDemo)
+    app.component('ComponentInHeader', ComponentInHeader)
+    app.component('AppearanceToggleTransition', AppearanceToggleTransition)
   },
 }
 

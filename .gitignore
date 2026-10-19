@@ -3,47 +3,26 @@
 .DS_Store
 
 # IDE related
-
 .idea
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
 
 # Obsidian
-
-**/.obsidian/*
-!**/.obsidian/workspace*
-!**/.obsidian/graph*
-!**/.obsidian/snippets/
-
-# Temporary files
-
-.temp
-
-# Nuxt
-
-.nuxt
+.obsidian/workspace*
 
 # Node.js
-
 node_modules
 .npmrc
 
 # VitePress
-
-**/.vitepress/dist
-**/.vitepress/docsMetadata.json
-**/.vitepress/cache/
-
-# Netlify
-
-.netlify/functions-serve/*
-
-# Generated files
-
-components.d.ts
+.vitepress/dist
+.vitepress/docsMetadata.json
+.vitepress/cache/
+.vitepress/components.d.ts
 
 # Local env files
-
 *.local
 
 # Logs
-
 *.log

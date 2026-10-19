@@ -2,12 +2,15 @@ import type { Creator } from '../scripts/types/metadata'
 import { getAvatarUrlByGithubName } from '../scripts/utils'
 
 /** 文本 */
-export const siteName = 'Nólëbase'
-export const siteShortName = 'Nólëbase'
-export const siteDescription = '记录回忆，知识和畅想的地方'
+export const siteName = 'Sapphire Rapids'
+export const siteShortName = 'Sapphire Rapids'
+export const siteDescription = '由 Vite 和 Vue 驱动的静态站点生成器'
+export const brandName = 'AmayaLab'
+export const currentYear = new Date().getFullYear()
+export const copyright = `Copyright © 2023-${currentYear} ${brandName}`
 
 /** 文档所在目录 */
-export const include = ['笔记', '生活']
+export const include = ['docs']
 
 /** Repo */
 export const githubRepoLink = 'https://github.com/nolebase/nolebase'

@@ -1,95 +1,94 @@
 <script lang="ts" setup>
 import { useClipboard } from '@vueuse/core'
-import { ref, watch } from 'vue'
 import { useRoute } from 'vitepress'
-import { plainTargetDomain } from '../../../metadata'
-
-interface HyphenResp<T> {
-  data: T
-}
-interface HyphenNewShortURLResp {
-  url: string
-  shortUrl: string
-}
-
-const APIHost = 'https://api.ayaka.io/hyphen'
-const newUrlEndpoint = `${APIHost}/api/v1/url`
-const queryUrlEndpoint = `${APIHost}/api/v1/url/full`
+import { computed, onMounted, ref } from 'vue'
 
 const route = useRoute()
+const { copy, copied: shareSuccess } = useClipboard()
 
-async function findExistingLink(url: string): Promise<string> {
-  const res = await fetch(`${queryUrlEndpoint}?url=${url}`)
-  if (res.status !== 200) {
-    if (res.status === 404)
-      return ''
-    console.error(await res.json())
-    return ''
+const browserLangCode = ref<string>('')
+
+onMounted(() => {
+  if (typeof navigator !== 'undefined') {
+    const raw = (navigator.language || (navigator.languages && navigator.languages[0]) || '').toLowerCase()
+    browserLangCode.value = raw
   }
+})
 
-  const resJson = await res.json()
-  return resJson.data.shortUrl as string
+interface ShareI18n {
+  share: string
+  copied: string
+  title: string
 }
 
-async function createShareLink(url: string) {
-  const res = await fetch(newUrlEndpoint, {
-    method: 'POST',
-    body: JSON.stringify({ url }),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
-
-  if (res.status !== 200) {
-    console.error(await res.json())
-    return null
-  }
-
-  const resJson = (await res.json()) as HyphenResp<HyphenNewShortURLResp>
-  return resJson.data
+const translations: Record<string, ShareI18n> = {
+  zh: {
+    share: '分享此页',
+    copied: '复制成功',
+    title: '复制当前页面链接',
+  },
+  en: {
+    share: 'Share',
+    copied: 'Copied!',
+    title: 'Copy link to this page',
+  },
+  ja: {
+    share: '共有',
+    copied: 'コピー完了',
+    title: 'このページのリンクをコピー',
+  },
+  ko: {
+    share: '공유',
+    copied: '복사 완료',
+    title: '현재 페이지 링크 복사',
+  },
+  es: {
+    share: 'Compartir',
+    copied: '¡Copiado!',
+    title: 'Copiar enlace de esta página',
+  },
+  pt: {
+    share: 'Compartilhar',
+    copied: 'Copiado!',
+    title: 'Copiar link da página',
+  },
+  ru: {
+    share: 'Поделиться',
+    copied: 'Скопировано!',
+    title: 'Скопировать ссылку на страницу',
+  },
 }
 
-async function getShareLink(): Promise<string> {
-  // 本身就是短地址或不是生产环境的话不处理，节省资源
-  if (
-    window.location.hostname !== plainTargetDomain
-    || window.location.pathname.length <= 20
-  ) return window.location.href
-
-  const url = window.location.href
-
-  let linkHash = ''
-  const existingLink = await findExistingLink(url)
-  if (existingLink !== '') {
-    linkHash = existingLink
-  }
-  else {
-    const newLink = await createShareLink(url)
-    if (newLink === null)
-      return window.location.href
-    linkHash = newLink.shortUrl
+const currentLocale = computed<ShareI18n>(() => {
+  // 1. 优先使用浏览器检测到的语言（例如 zh-CN -> zh, en-US -> en）
+  if (browserLangCode.value) {
+    const langPrefix = browserLangCode.value.split('-')[0]
+    if (translations[langPrefix])
+      return translations[langPrefix]
   }
 
-  return `${window.location.origin}/to/${linkHash}`
-}
+  // 2. 兜底策略：根据当前页面路由判断
+  const path = route.path
+  if (path.startsWith('/zh'))
+    return translations.zh
+  if (path.startsWith('/ja'))
+    return translations.ja
+  if (path.startsWith('/ko'))
+    return translations.ko
+  if (path.startsWith('/es'))
+    return translations.es
+  if (path.startsWith('/pt'))
+    return translations.pt
+  if (path.startsWith('/ru'))
+    return translations.ru
 
-const shareLink = ref('')
-watch(() => route.path, async (val, oldVal, onCleanup) => {
+  return translations.en
+})
+
+function copyShareLink() {
   if (typeof window === 'undefined')
     return
-  shareLink.value = ''
-  let cleanup = false
-  onCleanup(() => cleanup = true)
-
-  const link = await getShareLink()
-  if (cleanup)
-    return
-  shareLink.value = link
-}, { immediate: true })
-
-const { copy, copied: shareSuccess } = useClipboard()
-function copyShareLink() {
-  copy(shareLink.value)
+  copy(window.location.href)
 }
 </script>
 
@@ -98,10 +97,11 @@ function copyShareLink() {
     h-full ws-nowrap px3 text-sm font-medium
     text="$vp-c-text-1"
     :class="[
-      shareSuccess ? '!text-green-400' : '',
-      shareLink ? 'hover:sm:text-$vp-c-brand' : '!cursor-wait',
+      shareSuccess ? '!text-green-400' : 'hover:sm:text-$vp-c-brand',
     ]"
-    :disabled="!shareLink || shareSuccess"
+    :disabled="shareSuccess"
+    :title="currentLocale.title"
+    :aria-label="currentLocale.share"
     @click="copyShareLink()"
   >
     <Transition
@@ -115,11 +115,11 @@ function copyShareLink() {
     >
       <span v-if="shareSuccess" flex items-center space-x-1>
         <span class="i-octicon:checkbox-16" />
-        <span>复制成功</span>
+        <span>{{ currentLocale.copied }}</span>
       </span>
       <span v-else flex items-center space-x-1>
         <span class="i-octicon:share-16" />
-        <span>分享此页</span>
+        <span>{{ currentLocale.share }}</span>
       </span>
     </Transition>
   </button>

@@ -4,3 +4,13 @@ export interface SocialEntry {
   link: string
 }
 
+export interface Creator {
+  name: string
+  avatar: string
+  username: string
+  title: string
+  desc: string
+  links: SocialEntry[]
+  nameAliases: string[]
+  emailAliases: string[]
+}

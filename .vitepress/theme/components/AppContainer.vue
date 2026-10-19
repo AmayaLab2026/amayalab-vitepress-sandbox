@@ -1,6 +1,5 @@
 <script setup lang="ts">
 const props = defineProps<{
-  iconSrc: string
   href: string
 }>()
 </script>
@@ -27,6 +26,7 @@ const props = defineProps<{
         transition="all 200 ease"
         mt-2 block w-fit flex items-center rounded-lg p-2 text-xs shadow-sm
         target="_blank"
+        rel="noreferrer noopener"
       >
         <span class="i-ic:outline-arrow-outward" /> View
       </a>

@@ -1,12 +1,16 @@
 import { presetMarkdownIt } from '@nolebase/integrations/vitepress/markdown-it'
 import { transformHeadMeta } from '@nolebase/vitepress-plugin-meta'
-import { calculateSidebar } from '@nolebase/vitepress-plugin-sidebar'
-// import { buildEndGenerateOpenGraphImages } from '@nolebase/vitepress-plugin-og-image/vitepress'
 import MarkdownItFootnote from 'markdown-it-footnote'
-import MarkdownItMathjax3 from 'markdown-it-mathjax3'
 import { defineConfig } from 'vitepress'
 
-import { discordLink, githubRepoLink, siteDescription, siteName } from '../metadata'
+import enConfig from '../en/config'
+import esConfig from '../es/config'
+import jaConfig from '../ja/config'
+import koConfig from '../ko/config'
+import { githubRepoLink, siteDescription, siteName } from '../metadata/index'
+import ptConfig from '../pt/config'
+import ruConfig from '../ru/config'
+import zhConfig from '../zh/config'
 import head from './head'
 
 const nolebase = presetMarkdownIt()
@@ -28,12 +32,23 @@ export default defineConfig({
   description: siteDescription,
   ignoreDeadLinks: true,
   head,
+  rewrites: {
+    'en/:rest*': ':rest*',
+  },
   themeConfig: {
+    logo: { src: '/logo.svg', width: 24, height: 24, alt: 'Sapphire Rapids' },
+    socialLinks: [
+      { icon: 'github', link: githubRepoLink },
+    ],
+    footer: {
+      message: 'Released under the MIT License.',
+      copyright: `Copyright © 2023-${new Date().getFullYear()} AmayaLab`,
+    },
     search: {
       provider: 'local',
       options: {
         locales: {
-          root: {
+          zh: {
             translations: {
               button: {
                 buttonText: '搜索文档',
@@ -50,80 +65,44 @@ export default defineConfig({
             },
           },
         },
-
-        // Add title ang tags field in frontmatter to search
-        // You can exclude a page from search by adding search: false to the page's frontmatter.
-        _render(src, env, md) {
-          // without `md.render(src, env)`, the some information will be missing from the env.
-          let html = md.render(src, env)
-          let tagsPart = ''
-          let headingPart = ''
-          let contentPart = ''
-          let fullContent = ''
-          const sortContent = () => [headingPart, tagsPart, contentPart] as const
-          let { frontmatter, content } = env
-
-          if (!frontmatter)
-            return html
-
-          if (frontmatter.search === false)
-            return ''
-
-          contentPart = content ||= src
-
-          const headingMatch = content.match(/^# .*/m)
-          const hasHeading = !!(headingMatch && headingMatch[0] && headingMatch.index !== undefined)
-
-          if (hasHeading) {
-            const headingEnd = headingMatch.index! + headingMatch[0].length
-            headingPart = content.slice(0, headingEnd)
-            contentPart = content.slice(headingEnd)
-          }
-          else if (frontmatter.title) {
-            headingPart = `# ${frontmatter.title}`
-          }
-
-          const tags = frontmatter.tags
-          if (tags && Array.isArray(tags) && tags.length)
-            tagsPart = `Tags: #${tags.join(', #')}`
-
-          fullContent = sortContent().filter(Boolean).join('\n\n')
-
-          html = md.render(fullContent, env)
-
-          return html
-        },
       },
     },
   },
   locales: {
     root: {
-      lang: 'zh-CN',
-      label: '中文',
-      dir: '/zh-CN',
-      link: '/zh-CN',
-      themeConfig: {
-        nav: [
-          { text: '主页', link: '/zh-CN/' },
-          { text: '文档', link: '/zh-CN/docs/' },
-        ],
-        socialLinks: [
-          { icon: 'github', link: githubRepoLink },
-        ],
-        darkModeSwitchLabel: '切换主题',
-        outline: { label: '页面大纲', level: 'deep' },
-        editLink: {
-          pattern: `${githubRepoLink}/tree/main/:path`,
-          text: '编辑本页面',
-        },
-        sidebar: calculateSidebar([
-          { folderName: 'zh-CN/docs', separate: true },
-        ], 'zh-CN'),
-        footer: {
-          message: '用 <span style="color: #e25555;">&#9829;</span> 撰写',
-          copyright: '© PRESENT',
-        },
-      },
+      label: 'English',
+      lang: 'en-US',
+      ...enConfig,
+    },
+    zh: {
+      label: '简体中文',
+      lang: 'zh-Hans',
+      ...zhConfig,
+    },
+    es: {
+      label: 'Español',
+      lang: 'es-ES',
+      ...esConfig,
+    },
+    ja: {
+      label: '日本語',
+      lang: 'ja-JP',
+      ...jaConfig,
+    },
+    ko: {
+      label: '한국어',
+      lang: 'ko-KR',
+      ...koConfig,
+    },
+    pt: {
+      label: 'Português',
+      lang: 'pt-BR',
+      ...ptConfig,
+    },
+    ru: {
+      label: 'Русский',
+      lang: 'ru-RU',
+      ...ruConfig,
     },
   },
   markdown: {
@@ -136,8 +115,7 @@ export default defineConfig({
       await nolebase.install(md)
     },
     config: (md) => {
-      md.use(MarkdownItFootnote)
-      md.use(MarkdownItMathjax3)
+      md.use(MarkdownItFootnote as any)
     },
   },
   async transformHead(context) {
@@ -149,12 +127,4 @@ export default defineConfig({
 
     return head
   },
-  // async buildEnd(siteConfig) {
-  //   await buildEndGenerateOpenGraphImages({
-  //     baseUrl: targetDomain,
-  //     category: {
-  //       byLevel: 2,
-  //     },
-  //   })(siteConfig)
-  // },
 })

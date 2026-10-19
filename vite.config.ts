@@ -1,15 +1,17 @@
-import { join } from 'node:path'
 import { presetVite } from '@nolebase/integrations/vitepress/vite'
 import UnoCSS from 'unocss/vite'
-
 import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
 import Inspect from 'vite-plugin-inspect'
 
-
-
 export default defineConfig(async () => {
-  const nolebase = presetVite({})
+  const nolebase = presetVite({
+    gitChangelog: {
+      options: {
+        gitChangelog: {},
+      },
+    },
+  })
 
   return {
     assetsInclude: [
