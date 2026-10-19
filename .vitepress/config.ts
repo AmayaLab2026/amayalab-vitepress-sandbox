@@ -36,7 +36,7 @@ export default defineConfig({
     'en/:rest*': ':rest*',
   },
   themeConfig: {
-    logo: { src: '/logo.svg', width: 24, height: 24, alt: 'Sapphire Rapids' },
+    logo: { src: '/naruto.svg', width: 24, height: 24, alt: '🍥' },
     socialLinks: [
       { icon: 'github', link: githubRepoLink },
     ],
