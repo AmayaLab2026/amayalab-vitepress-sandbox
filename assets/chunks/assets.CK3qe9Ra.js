@@ -1,0 +1,1 @@
+var e=`/appearance-toggle-transition.webp`,t=`/search.png`;export{e as n,t};
