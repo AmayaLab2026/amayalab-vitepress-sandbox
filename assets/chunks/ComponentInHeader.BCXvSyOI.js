@@ -1,0 +1,1 @@
+import{$ as e,gt as t,jt as n}from"./framework.CbVAkGq1.js";var r={};function i(e,r){return n(),t(`span`,null,`⚡`)}var a=e(r,[[`render`,i]]);export{a as t};
