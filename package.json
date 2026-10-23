@@ -1,13 +1,20 @@
 {
-  "name": "nolebase",
+  "name": "amayalab-vitepress-sandbox",
   "type": "module",
   "version": "1.0.0",
   "packageManager": "pnpm@10.34.5",
   "author": {
-    "name": "Nólëbase",
-    "email": "nolebase@ayaka.moe",
-    "url": "https://github.com/nolebase"
+    "name": "AmayaLab",
+    "url": "https://github.com/AmayaLab2026"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AmayaLab2026/amayalab-vitepress-sandbox.git"
+  },
+  "bugs": {
+    "url": "https://github.com/AmayaLab2026/amayalab-vitepress-sandbox/issues"
+  },
+  "homepage": "https://github.com/AmayaLab2026/amayalab-vitepress-sandbox#readme",
   "license": "MIT",
   "keywords": [
     "vitepress",
